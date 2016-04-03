@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<!--
+	suggest
+	Spatial by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>MusicallyMe</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+		<script>
+		$(document).ready(function() {
+		  // define a generic Ajax error handler:
+		  // http://api.jquery.com/ajaxerror/
+		  $(document).ajaxError(function() {
+		    alert("Sorry, there was a problem!");
+		  });
+		  $("#registerButton").click(function() {
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/",
+		      type: "POST",
+		      dataType : "text", // this URL returns a plain text string, not JSON
+		      data : { username: $("#usernameBox").val(),
+		               password: $("#passwordBox").val()
+		             },
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data == 'OK') {
+		          $("#status").html("Successfully created a new user!");
+		        } else {
+		          $("#status").html("Error: could not create a new user!");
+		        }
+		      },
+		    });
+		  });
+		  $("#logInButton").click(function() {
+		    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
+		    // Using the core $.ajax() method
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/" + $("#usernameBox").val(),
+		      type: "GET",
+		      dataType : "json", // this URL returns data in JSON format
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data) {
+
+		          $("#profileStatus").html("Welcome, " + data[0]["account"]); //data.account
+		          $("#profileImage").attr("src", data[0]["picture"]);
+
+				  console.log(data["account"] + "" + data["picture"]);
+
+		        } else {
+		          console.log('Error!');
+		          // clear the profile display
+		          $("#nameDiv").html("");
+		          $("#ageDiv").html("");
+		          $("#profileImage").attr("src", "");
+		        }
+		      },
+		    });
+		  });
+		  $("#updateButton").click(function() {
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/" + $("#usernameBox").val(),
+		      type: "PUT",
+		      dataType : "text", // this URL returns a plain text string, not JSON
+		      data : { //placeholder for password
+		               picture: $("#pictureBox").val()
+		             },
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data == 'OK') {
+		          $("#status").html("Successfully updated user");
+		        } else {
+		          $("#status").html("Error: could not update user");
+		        }
+		      },
+		    });
+		  });
+		  $("#deleteButton").click(function() {
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/" + $("#usernameBox").val(),
+		      type: "DELETE",
+		      dataType : "text", // this URL returns a plain text string, not JSON
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data == 'OK') {
+		          $("#status").html("Successfully deleted!");
+		        } else {
+		          $("#status").html("Error: could not delete!");
+		        }
+		      },
+		    });
+		  });
+		});
+		</script>
+	</head>
+	<body class="landing">
+
+		<!-- Header -->
+			<header id="header" class="alt">
+				<div id="nameDiv"></div>
+				<div id="ageDiv"></div>
+				<h1 id="leftBlock"><img id="profileImage" src="http://i.imgur.com/QCMZMPv.jpg" style="width: 100px;"></img>
+					<a id="profileStatus">Not Logged In</a>
+				</h1>
+				<nav id="nav">
+					<ul>
+						<li id="rightBlock1"><a>Username: <input id="usernameBox" type="text" size="20"/></a></li>
+						<li id="rightBlock2" ><a>Password: <input id="passwordBox" type="text" size="20"/></a></li>
+						<li id="rightBlock3" ><a>Picture: <input id="pictureBox" type="text" size="20"/></a></li>
+						<!-- <li id="rightBlock4" ><a>Username: <input id="nameBox" type="text" size="20"/></a></li> -->
+						<li id="logInBlock"><a><button id="logInButton">Log In</button></a></li>
+						<li id="registerBlock"><a><button id="registerButton">Register</button></a></li>
+						<li id="updateBlock"><a><button id="updateButton">Update</button></a></li>
+						<li id="deleteBlock"><a><button id="deleteButton">Delete</button></a></li>
+
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h2>Musically Me</h2>
+				<p>We recommend you music in a way no other service does. <br />
+				You give us 3 songs you like, then we flash you 20 sets of images. <br />
+				Tell us which image you "like" more, and <i>boom</i>.</p>
+				<ul class="actions">
+					<li><a href="#" class="button special big">Music Now</a></li>
+				</ul>
+			</section>
+
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="container">
+					<ul class="icons">
+						<li><a href="#" class="icon fa-facebook"></a></li>
+						<li><a href="#" class="icon fa-twitter"></a></li>
+						<li><a href="#" class="icon fa-instagram"></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Untitled</li>
+						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+						<li>Images: <a href="http://unsplash.com">Unsplash</a></li>
+					</ul>
+				</div>
+			</footer>
+
+	</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<!--
+	index
+	Spatial by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>MusicallyMe</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+		<script>
+		$(document).ready(function() {
+		  // define a generic Ajax error handler:
+		  // http://api.jquery.com/ajaxerror/
+		  $(document).ajaxError(function() {
+		    alert("Sorry, there was a problem!");
+		  });
+		  $.ajax({
+ 		   // The URL for the request -- note the simple REST API!
+ 		   // all URLs are relative to http://localhost:3000/
+ 		   url: "home/",
+ 		   type: "GET",
+ 		   dataType : "json", // this URL returns data in JSON format
+ 		   success: function( data ) {
+ 			 if (data) {
+				 console.log("logged in");
+ 			   $("#profileStatus").html("Welcome, " + data[0]["account"]); //data.account
+ 			   $("#profileImage").attr("src", data[0]["picture"]);
+
+ 			   console.log(data["account"] + "" + data["picture"]);
+
+			   $("#banner1").html("Enter 3 songs you like");
+			   $("#bannerText").css("visibility","hidden");
+			   $("#bannerTable").css("visibility","visible");
+			   $("#song1").css("visibility","visible");
+			   $("#song2").css("visibility","visible");
+			   $("#song3").css("visibility","visible");
+
+ 			 } else {
+ 			   console.log('Error!');
+ 			   // clear the profile display
+ 			   $("#nameDiv").html("");
+ 			   $("#ageDiv").html("");
+ 			   $("#profileImage").attr("src", "");
+			   $("#song1").css("visibility","hidden");
+			  $("#song2").css("visibility","hidden");
+			  $("#song3").css("visibility","hidden");
+ 			 }
+ 		   },
+ 		 });
+		  $("#registerButton").click(function() {
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/",
+		      type: "POST",
+		      dataType : "text", // this URL returns a plain text string, not JSON
+		      data : { username: $("#usernameBox").val(),
+		               password: $("#passwordBox").val()
+		             },
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data == 'OK') {
+		          $("#status").html("Successfully created a new user!");
+		        } else {
+		          $("#status").html("Error: could not create a new user!");
+		        }
+		      },
+		    });
+		  });
+		  $("#logInButton").click(function() {
+		    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
+		    // Using the core $.ajax() method
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/" + $("#usernameBox").val(),
+		      type: "GET",
+		      dataType : "json", // this URL returns data in JSON format
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data) {
+
+		          $("#profileStatus").html("Welcome, " + data[0]["account"]); //data.account
+		          $("#profileImage").attr("src", data[0]["picture"]);
+
+				  $("#banner1").html("Enter 3 songs you like");
+				  $("#bannerText").css("visibility","hidden");
+				  $("#bannerTable").css("visibility","visible");
+				  $("#song1").css("visibility","visible");
+				  $("#song2").css("visibility","visible");
+				  $("#song3").css("visibility","visible");
+
+				  console.log(data["account"] + "" + data["picture"]);
+
+		        } else {
+		          console.log('Error!');
+		          // clear the profile display
+		          $("#nameDiv").html("");
+		          $("#ageDiv").html("");
+		          $("#profileImage").attr("src", "");
+		        }
+		      },
+		    });
+		  });
+		  $("#updateButton").click(function() {
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/" + $("#usernameBox").val(),
+		      type: "PUT",
+		      dataType : "text", // this URL returns a plain text string, not JSON
+		      data : { //placeholder for password
+		               picture: $("#pictureBox").val()
+		             },
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data == 'OK') {
+		          $("#status").html("Successfully updated user");
+		        } else {
+		          $("#status").html("Error: could not update user");
+		        }
+		      },
+		    });
+		  });
+		  $("#deleteButton").click(function() {
+		    $.ajax({
+		      // The URL for the request -- note the simple REST API!
+		      // all URLs are relative to http://localhost:3000/
+		      url: "users/" + $("#usernameBox").val(),
+		      type: "DELETE",
+		      dataType : "text", // this URL returns a plain text string, not JSON
+		      success: function( data ) {
+		        console.log("You received some data!", data);
+		        if (data == 'OK') {
+		          $("#status").html("Successfully deleted!");
+		        } else {
+		          $("#status").html("Error: could not delete!");
+		        }
+		      },
+		    });
+		  });
+
+		  $("#musicButton").click(function(){
+			  $.ajax({
+	  		      url: "music/",
+	  		      type: "POST",
+	  		      dataType : "text", // this URL returns a plain text string, not JSON
+	  		      data : { song1: $("#song1box").val(),
+	  		               song2: $("#song2box").val(),
+						   song3: $("#song3box").val()
+	  		             },
+	  		      success: function( data ) {
+	  		        console.log("You received some data!", data);
+	  		        if (data == 'OK') {
+	  		          $("#status").html("Successfully sent data");
+	  		        } else {
+	  		          $("#status").html("Did not send data");
+	  		        }
+	  		      },
+			  });
+			  $("#banner").html(
+				  "<table><td><div id=\"image1\"></div></td><td><div id=\"image2\"></div></td></table>"
+			  );
+		  });
+
+		});
+		</script>
+	</head>
+	<body class="landing">
+
+		<!-- Header -->
+			<header id="header" class="alt">
+				<div id="nameDiv"></div>
+				<div id="ageDiv"></div>
+				<h1 id="leftBlock"><img id="profileImage" src="http://i.imgur.com/QCMZMPv.jpg" style="width: 100px;"></img>
+					<a id="profileStatus">Not Logged In</a>
+				</h1>
+				<nav id="nav">
+					<ul>
+						<li id="rightBlock1"><a>Username: <input id="usernameBox" type="text" size="20"/></a></li>
+						<li id="rightBlock2" ><a>Password: <input id="passwordBox" type="text" size="20"/></a></li>
+						<li id="rightBlock3" ><a>Picture: <input id="pictureBox" type="text" size="20"/></a></li>
+						<!-- <li id="rightBlock4" ><a>Username: <input id="nameBox" type="text" size="20"/></a></li> -->
+						<li id="logInBlock"><a><button id="logInButton">Log In</button></a></li>
+						<li id="registerBlock"><a><button id="registerButton">Register</button></a></li>
+						<li id="updateBlock"><a><button id="updateButton">Update</button></a></li>
+						<li id="deleteBlock"><a><button id="deleteButton">Delete</button></a></li>
+
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Center -->
+			<section id="banner">
+				<h2 id="banner1">Musically Me</h2>
+				<p id="bannerText">We recommend you music in a way no other service does. <br />
+				You give us 3 songs you like, then we flash you 20 sets of images. <br />
+				Tell us which image you "like" more, and <i>boom</i>.</p>
+				<table id="bannerTable" style="width: 50%; visibility: hidden;">
+					<tr id="song1" style="width: 50%; visibility: hidden;"><input id="song1box" type="text" size="20"/></tr>
+					<tr id="song2" style="width: 50%; visibility: hidden;"><input id="song2box" type="text" size="20"/></tr>
+					<tr id="song3" style="width: 50%; visibility: hidden;"><input id="song3box" type="text" size="20"/></tr>
+				</table>
+				<ul class="actions">
+					<li><a class="button special big" id="musicButton">Music Now</a></li>
+				</ul>
+			</section>
+
+			<!-- Description -->
+				<section id="one" class="wrapper style1">
+					<div class="container 75%">
+						<div class="row 200%">
+							<div class="6u 12u$(medium)">
+								<header class="major">
+									<h2>How does it work?</h2>
+									<p>Cosine Similarity. <br />
+									A powerful, rigorous algorithm.
+									We do all the tricky stuff, you enjoy.</p>
+								</header>
+							</div>
+							<div class="6u$ 12u$(medium)">
+								<p>We think the subconcious is a uniquely powerful force. Do you even REALLY know what music you want to listen to sometimes? We surely don't all the time. We're unsatisfied with current services and want to make a better one.</p>
+								<p>Our image set is made up of 20 pairs of images. You press one key for each image; you have 1 second. The idea is based off of a Smoker and Drinker Identity research at the University of Rochester. When a user has very little time to decide something, their response will be more subconcious and less conscious </p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Two -->
+
+
+
+	</body>
+</html>
