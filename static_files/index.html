@@ -23,6 +23,7 @@
 		</noscript>
 		<script>
 		$(document).ready(function() {
+			var account;
 		  // define a generic Ajax error handler:
 		  // http://api.jquery.com/ajaxerror/
 		  $(document).ajaxError(function() {
@@ -39,6 +40,7 @@
 				 console.log("logged in");
  			   $("#profileStatus").html("Welcome, " + data[0]["account"]); //data.account
  			   $("#profileImage").attr("src", data[0]["picture"]);
+			   account = data[0]["account"];
 
  			   console.log(data["account"] + "" + data["picture"]);
 
@@ -154,76 +156,127 @@
 		    });
 		  });
 
+		  var song1v;
+		  var song2v;
+		  var song3v;
+
 		  $("#musicButton").click(function(){
-			  $.ajax({
-	  		      url: "music/",
-	  		      type: "POST",
-	  		      dataType : "text", // this URL returns a plain text string, not JSON
-	  		      data : { song1: $("#song1box").val(),
-	  		               song2: $("#song2box").val(),
-						   song3: $("#song3box").val()
-	  		             },
-	  		      success: function( data ) {
-	  		        console.log("You received some data!", data);
-	  		        if (data == 'OK') {
-	  		          $("#status").html("Successfully sent data");
-	  		        } else {
-	  		          $("#status").html("Did not send data");
-	  		        }
-	  		      },
-			  });
+			  //track 3 songs
+			   song1v = $("#song1box").val();
+			   song2v = $("#song2box").val();
+			   song3v = $("#song3box").val();
 			  //Change the HTML
 			  $("#banner").html(
-				  "<table><td><div id=\"div1\"><img id=\"image1\" style=\"width:45%\"></img></div></td><td><div id=\"div2\"><img id=\"image2\" style=\"width:45%\"></img></div></td></table>"
+				  "<table><td><img id=\"image1\" style=\"width:100%\"></img></td><td><img id=\"image2\" style=\"width:100%\"></img></td></table>"
 			  );
 			  //Change the images
 			  $("#image1").attr("src", "http://i.imgur.com/BCL3aqS.jpg");
 			  $("#image2").attr("src", "http://i.imgur.com/rSLNyfL.jpg");
 		  });
 
-		  var iter1 = 1;
-		  var iterMax = 5;
+		  var iter1 = 2;
+		  var iterMax = 7; //num + 2
 
-		
+		  var sent = 1;
+
+		  var imageList = [];
 		$('body').on('keydown',function(e){
-			if(e.which==82){
+			if(iter1 < iterMax){
+				if(e.which==70){ //F
+					imageList.push(-1); //add it to array
+					 var image1;
+					 var image2;
 
-				 var image1;
-				 var image2;
+					 switch(iter1){
+						 case 1:
+						   image1="http://i.imgur.com/BCL3aqS.jpg";
+						   image2="http://i.imgur.com/rSLNyfL.jpg";
+						   break;
+					   case 2:
+						   image1="http://i.imgur.com/NI7qMVT.jpg";
+						   image2="http://i.imgur.com/fznN3U3.jpg";
+						   break;
+					   case 3:
+						   image1="http://i.imgur.com/kouWQje.jpg";
+						   image2="http://i.imgur.com/nlo65Gy.jpg";
+						   break;
+					   case 4:
+						   image1="http://i.imgur.com/zPBjVuEm.jpg";
+						   image2="http://i.imgur.com/KOZH6oym.jpg";
+						   break;
+					   case 5:
+						   image1="http://i.imgur.com/TJ1UXRU.jpg";
+						   image2="http://i.imgur.com/cRjcxmb.jpg";
+						   break;
+					 }
+					 $("#image1").attr("src", image1);
+					 $("#image2").attr("src", image2);
 
-				 switch(iter1){
-					 case 1:
-					   image1="http://i.imgur.com/BCL3aqS.jpg";
-					   image2="http://i.imgur.com/rSLNyfL.jpg";
-					   break;
-				   case 2:
-					   image1="http://i.imgur.com/NI7qMVT.jpg";
-					   image2="http://i.imgur.com/fznN3U3.jpg";
-					   break;
-				   case 3:
-					   image1="http://i.imgur.com/kouWQje.jpg";
-					   image2="http://i.imgur.com/nlo65Gy.jpg";
-					   break;
-				   case 4:
-					   image1="http://i.imgur.com/zPBjVuEm.jpg";
-					   image2="http://i.imgur.com/KOZH6oym.jpg";
-					   break;
-				   case 5:
-					   image1="http://i.imgur.com/TJ1UXRU.jpg";
-					   image2="http://i.imgur.com/cRjcxmb.jpg";
-					   break;
+					 iter1 = iter1+1;
+		 		}
+				if(e.which==74){ //J
+					imageList.push(1);//add it to array
+					 var image1;
+					 var image2;
 
-				 }
+					 switch(iter1){
+						 case 1:
+						   image1="http://i.imgur.com/BCL3aqS.jpg";
+						   image2="http://i.imgur.com/rSLNyfL.jpg";
+						   break;
+					   case 2:
+						   image1="http://i.imgur.com/NI7qMVT.jpg";
+						   image2="http://i.imgur.com/fznN3U3.jpg";
+						   break;
+					   case 3:
+						   image1="http://i.imgur.com/kouWQje.jpg";
+						   image2="http://i.imgur.com/nlo65Gy.jpg";
+						   break;
+					   case 4:
+						   image1="http://i.imgur.com/zPBjVuEm.jpg";
+						   image2="http://i.imgur.com/KOZH6oym.jpg";
+						   break;
+					   case 5:
+						   image1="http://i.imgur.com/TJ1UXRU.jpg";
+						   image2="http://i.imgur.com/cRjcxmb.jpg";
+						   break;
+					 }
+					 $("#image1").attr("src", image1);
+					 $("#image2").attr("src", image2);
 
-				 $("#image1").attr("src", image1);
-				 $("#image2").attr("src", image2);
+					 iter1 = iter1+1;
+					 console.log(iter1);
+		 		}
+			}// end i<max
+			else if (sent==1){
+				console.log("sending images");
+				$.ajax({
+  	  		      url: "music/",
+  	  		      type: "POST",
+  	  		      dataType : "text", // this URL returns a plain text string, not JSON
+  	  		      data : {
+					  		user: account,
 
-				 if(iter1 >= iterMax){
-					 clearInterval(myRep);
-				 }
-				 iter1 = iter1+1;
-				 console.log(iter1+" : "+iterMax);
-		 	}
+					  		songs: {song1: song1v,
+  	  		               	song2: song2v,
+  						   	song3: song3v},
+
+							images: {
+								img1: imageList[0],
+								img2: imageList[1],
+								img3: imageList[2],
+								img4: imageList[3],
+								img5: imageList[4],
+							}
+  	  		             },
+  	  		      success: function( data ) {
+
+  	  		        $("#banner").html("<ul><li>Try these songs:</li><li><a>" +data+"</a></li><li>Enjoy!</li></ul>");
+  	  		      },
+  			  	});
+
+				sent=0; //destroy sent
+			}
 		  });
 
 		});

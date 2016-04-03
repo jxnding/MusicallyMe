@@ -5,6 +5,7 @@ var app = express();
 //Mongo declaration
 var mongojs = require('mongojs');
 var db = mongojs('MusicallyMe', ['accountCollection']);
+var dbm = mongojs('MusicallyMe', ['musicCollection']);
 
 /////////////////////Global Variables (for Mongo)/////////
 var mongoData;
@@ -31,6 +32,40 @@ function registerAccount(username, inputPassword){
             console.log(username + " Registered");
         }
     });
+}
+
+var songs = [];
+
+function addMusic(data){
+    songs.push([data.songs.song1]);
+    songs.push([data.songs.song2]);
+    songs.push([data.songs.song3]);
+}
+
+function addMusic2(data){
+
+    dbm.musicCollection.insert({
+        account:data.user,
+        song1:data.songs.song1,
+        song2:data.songs.song2,
+        song3:data.songs.song3,
+        image1:data.images.img1,
+        image2:data.images.img2,
+        image3:data.images.img3,
+        image4:data.images.img4,
+        image5:data.images.img5,
+    });
+
+    var songs = [];
+
+    var roop = dbm.musicCollection.find({}).toArray(function(err,result){
+        console.log(result[0]);
+
+
+    });
+
+
+
 }
 
 // required to support parsing of POST request bodies
@@ -192,5 +227,17 @@ var server = app.listen(3000, function () {
 ////////////////////////////MUSIC NOW//////////////////////////////////////
 app.post('/music/', function(req, res) {
 
-res.send(null);
+    var data = req.body;
+
+    addMusic(data);
+
+    var s1 = Math.floor((Math.random() * songs.length));
+    var s2 = Math.floor((Math.random() * songs.length));
+    var s3 = Math.floor((Math.random() * songs.length));
+
+    var ss1 = songs[s1];
+    var ss2 = songs[s2];
+    var ss3 = songs[s3];
+
+    res.send(ss1+", "+ss2+", "+ss3);
 });
