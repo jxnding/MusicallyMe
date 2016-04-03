@@ -174,11 +174,56 @@
 			  });
 			  //Change the HTML
 			  $("#banner").html(
-				  "<table><td><img id=\"image1\" style=\"width:45%\"></img></td><td><img id=\"image2\" style=\"width:45%\"></img></td></table>"
+				  "<table><td><div id=\"div1\"><img id=\"image1\" style=\"width:45%\"></img></div></td><td><div id=\"div2\"><img id=\"image2\" style=\"width:45%\"></img></div></td></table>"
 			  );
 			  //Change the images
 			  $("#image1").attr("src", "http://i.imgur.com/BCL3aqS.jpg");
 			  $("#image2").attr("src", "http://i.imgur.com/rSLNyfL.jpg");
+		  });
+
+		  var iter1 = 1;
+		  var iterMax = 5;
+
+		
+		$('body').on('keydown',function(e){
+			if(e.which==82){
+
+				 var image1;
+				 var image2;
+
+				 switch(iter1){
+					 case 1:
+					   image1="http://i.imgur.com/BCL3aqS.jpg";
+					   image2="http://i.imgur.com/rSLNyfL.jpg";
+					   break;
+				   case 2:
+					   image1="http://i.imgur.com/NI7qMVT.jpg";
+					   image2="http://i.imgur.com/fznN3U3.jpg";
+					   break;
+				   case 3:
+					   image1="http://i.imgur.com/kouWQje.jpg";
+					   image2="http://i.imgur.com/nlo65Gy.jpg";
+					   break;
+				   case 4:
+					   image1="http://i.imgur.com/zPBjVuEm.jpg";
+					   image2="http://i.imgur.com/KOZH6oym.jpg";
+					   break;
+				   case 5:
+					   image1="http://i.imgur.com/TJ1UXRU.jpg";
+					   image2="http://i.imgur.com/cRjcxmb.jpg";
+					   break;
+
+				 }
+
+				 $("#image1").attr("src", image1);
+				 $("#image2").attr("src", image2);
+
+				 if(iter1 >= iterMax){
+					 clearInterval(myRep);
+				 }
+				 iter1 = iter1+1;
+				 console.log(iter1+" : "+iterMax);
+		 	}
 		  });
 
 		});
