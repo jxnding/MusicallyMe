@@ -172,9 +172,13 @@
 	  		        }
 	  		      },
 			  });
+			  //Change the HTML
 			  $("#banner").html(
-				  "<table><td><div id=\"image1\"></div></td><td><div id=\"image2\"></div></td></table>"
+				  "<table><td><img id=\"image1\" style=\"width:45%\"></img></td><td><img id=\"image2\" style=\"width:45%\"></img></td></table>"
 			  );
+			  //Change the images
+			  $("#image1").attr("src", "http://i.imgur.com/BCL3aqS.jpg");
+			  $("#image2").attr("src", "http://i.imgur.com/rSLNyfL.jpg");
 		  });
 
 		});
